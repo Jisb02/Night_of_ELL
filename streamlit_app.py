@@ -21,16 +21,18 @@ with col2:
         if st.button("ENG"):
             st.session_state["language"] = "ENG"
             st.session_state["selected_hint"] = None  # 언어 전환 시 홈 화면으로 리셋
+            st.experimental_rerun()
     elif st.session_state["language"] == "ENG":
         if st.button("KOR"):
             st.session_state["language"] = "KOR"
             st.session_state["selected_hint"] = None  # 언어 전환 시 홈 화면으로 리셋
+            st.experimental_rerun()
 
 # 텍스트 번역 (언어에 따라 다르게 설정)
 text = {
     "KOR": {
         "title": "Night of ELL 힌트 사이트",
-        "description": "힌트 버튼을 눌러 비밀번호를 입력 엔터. 힌 이미지를 확인하세요.",
+        "description": "힌트 버튼을 눌러 비밀번호를 입력 후 엔터. 힌트 이미지를 확인하세요.",
         "password_prompt": "{}의 비밀번호를 입력하세요:",
         "success": "{}의 비밀번호가 맞았습니다!",
         "error": "비밀번호가 틀렸습니다.",
@@ -55,6 +57,7 @@ current_text = text[lang]
 def reset_to_home():
     """홈 화면으로 돌아가는 함수"""
     st.session_state["selected_hint"] = None
+    st.experimental_rerun()  # 홈으로 리셋 후 즉시 화면 갱신
 
 # 홈 화면 처리
 if st.session_state["selected_hint"] is None:
@@ -65,7 +68,7 @@ if st.session_state["selected_hint"] is None:
     for i, (hint, data) in enumerate(passwords.items()):
         if st.button(current_text["hints"][i], key=hint):
             st.session_state["selected_hint"] = hint
-            st.experimental_set_query_params(selected_hint=hint)  # 쿼리 파라미터로 상태 저장
+            st.experimental_rerun()  # 버튼 클릭 후 즉시 화면 전환
 else:
     # 선택된 힌트 화면
     selected_hint = st.session_state["selected_hint"]
