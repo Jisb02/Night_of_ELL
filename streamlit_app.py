@@ -56,7 +56,7 @@ def reset_to_home():
     """홈 화면으로 돌아가는 함수"""
     st.session_state["selected_hint"] = None
 
-# 상태 확인 및 화면 처리
+# 홈 화면 처리
 if st.session_state["selected_hint"] is None:
     # 홈 화면
     st.title(current_text["title"])
@@ -64,10 +64,11 @@ if st.session_state["selected_hint"] is None:
 
     # 힌트 버튼 표시
     for i, (hint, data) in enumerate(passwords.items()):
+        # 버튼 클릭 시 상태 변경
         if st.button(current_text["hints"][i], key=hint):
-            st.session_state["selected_hint"] = hint  # 버튼 클릭 시 상태 변경
+            st.session_state["selected_hint"] = hint  # 선택된 힌트 상태 변경
             st.experimental_set_query_params(selected_hint=hint)  # URL 상태 동기화
-            st.experimental_rerun()  # 상태 변경 후 즉시 화면 갱신
+            # 상태 변경 후 Streamlit이 자동으로 화면을 갱신
 else:
     # 선택된 힌트 화면
     selected_hint = st.session_state["selected_hint"]
