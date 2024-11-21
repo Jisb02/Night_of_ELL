@@ -66,7 +66,8 @@ if st.session_state["selected_hint"] is None:
     for i, (hint, data) in enumerate(passwords.items()):
         if st.button(current_text["hints"][i], key=hint):
             st.session_state["selected_hint"] = hint  # 버튼 클릭 시 상태 변경
-            break  # 클릭한 버튼 이후 로직을 중단하여 즉시 입력 화면으로 넘어감
+            st.experimental_set_query_params(selected_hint=hint)  # URL 상태 동기화
+            st.experimental_rerun()  # 상태 변경 후 즉시 화면 갱신
 else:
     # 선택된 힌트 화면
     selected_hint = st.session_state["selected_hint"]
