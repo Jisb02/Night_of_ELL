@@ -44,7 +44,7 @@ text = {
         "title": "Night Of ELL Hints",
         "description": [
         "Click the hint button to enter the password and view the image.",
-        "description": "If the buttons don't work, try doubble click."
+        "If the buttons don't work, try doubble click."
         ],
         "password_prompt": "Enter the password for {}:",
         "success": "The password for {} is correct!",
