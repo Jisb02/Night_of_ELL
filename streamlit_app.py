@@ -30,7 +30,7 @@ with col2:
 text = {
     "KOR": {
         "title": "Night Of ELL 힌트 사이트",
-        "description": "힌트 버튼을 눌러 비밀번호를 입력 후 엔터. 힌트 이미지를 확인하세요.",
+        "description": "힌트 버튼을 더블 클릭하여 비밀번호를 입력 후 엔터. 힌트 이미지를 확인하세요.",
         "password_prompt": "{}의 비밀번호를 입력하세요:",
         "success": "{}의 비밀번호가 맞았습니다!",
         "error": "비밀번호가 틀렸습니다.",
@@ -39,7 +39,7 @@ text = {
     },
     "ENG": {
         "title": "Night Of ELL Hints",
-        "description": "Click the hint button to enter the password and view the image.",
+        "description": "Double-Click the hint button to enter the password and view the image.",
         "password_prompt": "Enter the password for {}:",
         "success": "The password for {} is correct!",
         "error": "The password is incorrect.",
