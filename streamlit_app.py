@@ -56,16 +56,17 @@ def reset_to_home():
     """홈 화면으로 돌아가는 함수"""
     st.session_state["selected_hint"] = None
 
-# 홈 화면 처리
+# 상태 확인 및 화면 처리
 if st.session_state["selected_hint"] is None:
+    # 홈 화면
     st.title(current_text["title"])
     st.write(current_text["description"])
 
     # 힌트 버튼 표시
     for i, (hint, data) in enumerate(passwords.items()):
         if st.button(current_text["hints"][i], key=hint):
-            st.session_state["selected_hint"] = hint
-            break  # 버튼 클릭 시 즉시 화면 전환
+            st.session_state["selected_hint"] = hint  # 버튼 클릭 시 상태 변경
+            break  # 클릭한 버튼 이후 로직을 중단하여 즉시 입력 화면으로 넘어감
 else:
     # 선택된 힌트 화면
     selected_hint = st.session_state["selected_hint"]
