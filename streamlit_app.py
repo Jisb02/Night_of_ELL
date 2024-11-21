@@ -11,6 +11,8 @@ passwords = {
 # 초기 언어 설정
 if "language" not in st.session_state:
     st.session_state["language"] = "KOR"  # 기본값: 한국어
+if "selected_hint" not in st.session_state:
+    st.session_state["selected_hint"] = None  # 초기값은 None
 
 # 언어 전환 버튼
 col1, col2 = st.columns([8, 1])  # 오른쪽 상단에 배치
@@ -18,15 +20,17 @@ with col2:
     if st.session_state["language"] == "KOR":
         if st.button("ENG"):
             st.session_state["language"] = "ENG"
+            st.session_state["selected_hint"] = None  # 언어 전환 시 홈 화면으로 리셋
     elif st.session_state["language"] == "ENG":
         if st.button("KOR"):
             st.session_state["language"] = "KOR"
+            st.session_state["selected_hint"] = None  # 언어 전환 시 홈 화면으로 리셋
 
 # 텍스트 번역 (언어에 따라 다르게 설정)
 text = {
     "KOR": {
-        "title": "Night of ELL 힌트 사이트",
-        "description": "힌트 버튼을 눌러 비밀번호를 입력 후 엔터. 힌트 이미지를 확인하세요.",
+        "title": "힌트 비밀번호 시스템",
+        "description": "힌트 버튼을 눌러 비밀번호를 입력하고 이미지를 확인하세요.",
         "password_prompt": "{}의 비밀번호를 입력하세요:",
         "success": "{}의 비밀번호가 맞았습니다!",
         "error": "비밀번호가 틀렸습니다.",
@@ -34,7 +38,7 @@ text = {
         "hints": ["힌트 1", "힌트 2", "힌트 3", "힌트 4"],
     },
     "ENG": {
-        "title": "Night of ELL, Hints",
+        "title": "Hint Password System",
         "description": "Click the hint button to enter the password and view the image.",
         "password_prompt": "Enter the password for {}:",
         "success": "The password for {} is correct!",
@@ -48,15 +52,9 @@ text = {
 lang = st.session_state["language"]
 current_text = text[lang]
 
-# 상태 관리: 현재 선택된 버튼 저장
-if "selected_hint" not in st.session_state:
-    st.session_state["selected_hint"] = None  # 초기값은 None
-
-
 def reset_to_home():
     """홈 화면으로 돌아가는 함수"""
     st.session_state["selected_hint"] = None
-
 
 # 홈 화면 처리
 if st.session_state["selected_hint"] is None:
@@ -67,6 +65,7 @@ if st.session_state["selected_hint"] is None:
     for i, (hint, data) in enumerate(passwords.items()):
         if st.button(current_text["hints"][i], key=hint):
             st.session_state["selected_hint"] = hint
+            st.experimental_set_query_params(selected_hint=hint)  # 쿼리 파라미터로 상태 저장
 else:
     # 선택된 힌트 화면
     selected_hint = st.session_state["selected_hint"]
@@ -84,7 +83,7 @@ else:
     # 비밀번호 확인
     if password_input == data["password"]:
         st.success(current_text["success"].format(selected_hint))
-        st.image(data["image"], caption=f"{selected_hint}", use_container_width=True)
+        st.image(data["image"], caption=f"{selected_hint} 이미지", use_container_width=True)
     elif password_input != 0:  # 숫자가 입력되었으나 틀렸을 경우
         st.error(current_text["error"])
 
