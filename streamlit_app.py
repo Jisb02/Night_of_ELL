@@ -84,7 +84,7 @@ else:
     # 비밀번호 확인
     if password_input == data["password"]:
         st.success(current_text["success"].format(selected_hint))
-        st.image(data["image"], caption=f"{selected_hint} 이미지", use_container_width=True)
+        st.image(data["image"], caption=f"{selected_hint}", use_container_width=True)
     elif password_input != 0:  # 숫자가 입력되었으나 틀렸을 경우
         st.error(current_text["error"])
 
