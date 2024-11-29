@@ -3,9 +3,8 @@ import streamlit as st
 # 비밀번호와 연결된 힌트별 이미지 경로 설정
 passwords = {
     "hint1": {"password": 1202, "image": "hint/hint001.JPG"},
-    "hint2": {"password": 2444, "image": "hint/hint002.JPG"},
-    "hint3": {"password": 9160, "image": "hint/hint003.JPG"},
-    "hint4": {"password": 509, "image": "hint/hint004.JPG"},  # 숫자형이므로 앞의 0 제거
+    "hint2": {"password": 2444, "image": "hint/hint002.jpg"},
+    "hint3": {"password": 3179, "image": "hint/hint003.jpg"},
 }
 
 # 초기 언어 설정
@@ -35,7 +34,7 @@ text = {
         "success": "{}의 비밀번호가 맞았습니다!",
         "error": "비밀번호가 틀렸습니다.",
         "home_button": "홈으로 가기",
-        "hints": ["힌트 1", "힌트 2", "힌트 3", "힌트 4"],
+        "hints": ["힌트 1", "힌트 2", "힌트 3"],
     },
     "ENG": {
         "title": "Night Of ELL Hints",
@@ -44,7 +43,7 @@ text = {
         "success": "The password for {} is correct!",
         "error": "The password is incorrect.",
         "home_button": "Go to Home",
-        "hints": ["Hint 1", "Hint 2", "Hint 3", "Hint 4"],
+        "hints": ["Hint 1", "Hint 2", "Hint 3"],
     },
 }
 
@@ -67,7 +66,6 @@ if st.session_state["selected_hint"] is None:
         if st.button(current_text["hints"][i], key=hint):
             st.session_state["selected_hint"] = hint  # 선택된 힌트 상태 변경
             st.experimental_set_query_params(selected_hint=hint)  # URL 상태 동기화
-            # 상태 변경 후 Streamlit이 자동으로 화면을 갱신
 else:
     # 선택된 힌트 화면
     selected_hint = st.session_state["selected_hint"]
