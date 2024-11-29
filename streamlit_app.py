@@ -34,6 +34,7 @@ text = {
         "success": "{}의 비밀번호가 맞았습니다!",
         "error": "비밀번호가 틀렸습니다.",
         "home_button": "홈으로 가기",
+        "cctv_button": "CCTV로 연결하기",
         "hints": ["힌트 1", "힌트 2", "힌트 3"],
     },
     "ENG": {
@@ -43,6 +44,7 @@ text = {
         "success": "The password for {} is correct!",
         "error": "The password is incorrect.",
         "home_button": "Go to Home",
+        "cctv_button": "Go to CCTV",
         "hints": ["Hint 1", "Hint 2", "Hint 3"],
     },
 }
@@ -66,6 +68,13 @@ if st.session_state["selected_hint"] is None:
         if st.button(current_text["hints"][i], key=hint):
             st.session_state["selected_hint"] = hint  # 선택된 힌트 상태 변경
             st.experimental_set_query_params(selected_hint=hint)  # URL 상태 동기화
+
+    # CCTV로 연결하기 버튼 추가
+    if st.button(current_text["cctv_button"]):
+        st.markdown(
+            '<a href="https://24ellcctv.streamlit.app/" target="_blank" style="text-decoration:none;"><button style="background-color:#007BFF; color:white; border:none; padding:10px 15px; font-size:16px; cursor:pointer;">🔗 CCTV로 연결하기</button></a>',
+            unsafe_allow_html=True,
+        )
 else:
     # 선택된 힌트 화면
     selected_hint = st.session_state["selected_hint"]
