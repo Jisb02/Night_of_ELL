@@ -5,7 +5,7 @@ passwords = {
     "hint1": {"password": 1202, "image": "hint/hint001.JPG"},
     "hint2": {"password": 2444, "image": "hint/hint002.jpg"},
     "hint3": {"password": 3179, "image": "hint/hint003.jpg"},
-    "hint4": {"password": 5134, "image": "hint/hint004.jpg"}
+    "hint4": {"password": 4609, "image": "hint/hint004.jpg"},  # 힌트 4 추가
 }
 
 # 초기 언어 설정
@@ -36,7 +36,7 @@ text = {
         "error": "비밀번호가 틀렸습니다.",
         "home_button": "홈으로 가기",
         "cctv_button": "CCTV로 연결하기",
-        "hints": ["힌트 1", "힌트 2", "힌트 3", "힌트 4"],
+        "hints": ["힌트 1", "힌트 2", "힌트 3", "힌트 4"],  # 힌트 4 추가
     },
     "ENG": {
         "title": "Night Of ELL Hints",
@@ -46,7 +46,7 @@ text = {
         "error": "The password is incorrect.",
         "home_button": "Go to Home",
         "cctv_button": "Go to CCTV",
-        "hints": ["Hint 1", "Hint 2", "Hint 3", "Hint 4"],
+        "hints": ["Hint 1", "Hint 2", "Hint 3", "Hint 4"],  # 힌트 4 추가
     },
 }
 
