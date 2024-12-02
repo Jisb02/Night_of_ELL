@@ -18,11 +18,11 @@ if "selected_hint" not in st.session_state:
 col1, col2 = st.columns([8, 1])  # 오른쪽 상단에 배치
 with col2:
     if st.session_state["language"] == "KOR":
-        if st.button("ENG"):
+        if st.button("ENG", key="lang_eng"):
             st.session_state["language"] = "ENG"
             st.session_state["selected_hint"] = None  # 언어 전환 시 홈 화면으로 리셋
     elif st.session_state["language"] == "ENG":
-        if st.button("KOR"):
+        if st.button("KOR", key="lang_kor"):
             st.session_state["language"] = "KOR"
             st.session_state["selected_hint"] = None  # 언어 전환 시 홈 화면으로 리셋
 
@@ -65,12 +65,12 @@ if st.session_state["selected_hint"] is None:
 
     # 힌트 버튼 표시
     for i, (hint, data) in enumerate(passwords.items()):
-        # 버튼 클릭 시 상태 변경
-        if st.button(current_text["hints"][i], key=hint):
+        # 버튼 클릭 시 상태 변경 (고유 키 추가)
+        if st.button(current_text["hints"][i], key=f"hint_button_{i}"):
             st.session_state["selected_hint"] = hint  # 선택된 힌트 상태 변경
 
     # CCTV로 연결하기 버튼 추가
-    if st.button(current_text["cctv_button"]):
+    if st.button(current_text["cctv_button"], key="cctv_button"):
         st.markdown(
             '<a href="https://24ellcctv.streamlit.app/" target="_blank" style="text-decoration:none;"><button style="background-color:#007BFF; color:white; border:none; padding:10px 15px; font-size:16px; cursor:pointer;">🔗 CCTV로 연결하기</button></a>',
             unsafe_allow_html=True,
