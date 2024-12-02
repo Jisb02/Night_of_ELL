@@ -68,7 +68,6 @@ if st.session_state["selected_hint"] is None:
         # 버튼 클릭 시 상태 변경
         if st.button(current_text["hints"][i], key=hint):
             st.session_state["selected_hint"] = hint  # 선택된 힌트 상태 변경
-            st.experimental_set_query_params(selected_hint=hint)  # URL 상태 동기화
 
     # CCTV로 연결하기 버튼 추가
     if st.button(current_text["cctv_button"]):
