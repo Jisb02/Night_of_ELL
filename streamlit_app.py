@@ -29,7 +29,7 @@ with col2:
 # 텍스트 번역 (언어에 따라 다르게 설정)
 text = {
     "KOR": {
-        "title": "Night Of ELL 힌트 사이트",
+        "title": "힌트 사이트",
         "description": "힌트 버튼을 더블 클릭하여 비밀번호를 입력 후 엔터. 힌트 이미지를 확인하세요.",
         "password_prompt": "{}의 비밀번호를 입력하세요:",
         "success": "{}의 비밀번호가 맞았습니다!",
@@ -39,7 +39,7 @@ text = {
         "hints": ["힌트 1", "힌트 2", "힌트 3", "힌트 4"],  # 힌트 4 추가
     },
     "ENG": {
-        "title": "Night Of ELL Hints",
+        "title": "Hints",
         "description": "Double-Click the hint button to enter the password and view the image.",
         "password_prompt": "Enter the password for {}:",
         "success": "The password for {} is correct!",
