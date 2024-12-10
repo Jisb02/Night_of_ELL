@@ -18,9 +18,9 @@ if "selected_hint" not in st.session_state:
 st.markdown("""
     <style>
     .button-3d {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
+        background-color: #ffffff; /* 버튼 배경색: 흰색 */
+        border: 2px solid #4CAF50; /* 테두리 초록색 */
+        color: #4CAF50; /* 텍스트 초록색 */
         padding: 15px 32px;
         text-align: center;
         text-decoration: none;
@@ -28,20 +28,28 @@ st.markdown("""
         font-size: 16px;
         margin: 4px 2px;
         cursor: pointer;
-        box-shadow: 0 9px #999;
+        box-shadow: 0 6px #999;
         border-radius: 8px;
         transition: all 0.3s ease;
     }
 
+    .button-3d:hover {
+        background-color: #4CAF50; /* 호버 시 배경 초록색 */
+        color: #ffffff; /* 호버 시 텍스트 흰색 */
+        box-shadow: 0 12px #666;
+    }
+
     .button-3d:active {
-        background-color: #3e8e41;
-        box-shadow: 0 5px #666;
+        background-color: #45a049;
+        box-shadow: 0 4px #666;
         transform: translateY(4px);
     }
 
-    .button-3d:hover {
-        background-color: #45a049;
-        box-shadow: 0 12px #666;
+    .center {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -50,9 +58,9 @@ st.markdown("""
 text = {
     "KOR": {
         "title": "힌트 사이트",
-        "description": "힌트 버튼을 더블 클릭하여 비밀번호를 입력 후 엔터. 힌트 이미지를 확인하세요.",
+        "description": "아래 힌트 버튼을 클릭하세요.",
         "password_prompt": "{}의 비밀번호를 입력하세요:",
-        "success": "{}의 비밀번호가 맞았습니다! 3D 버튼을 확인하세요.",
+        "success": "{}의 비밀번호가 맞았습니다! 이미지를 확인하세요.",
         "error": "비밀번호가 틀렸습니다.",
         "home_button": "홈으로 가기",
         "cctv_button": "CCTV로 연결하기",
@@ -60,9 +68,9 @@ text = {
     },
     "ENG": {
         "title": "Hints",
-        "description": "Double-Click the hint button to enter the password and view the image.",
+        "description": "Click the hint buttons below.",
         "password_prompt": "Enter the password for {}:",
-        "success": "The password for {} is correct! Check out the 3D button.",
+        "success": "The password for {} is correct! Check the image.",
         "error": "The password is incorrect.",
         "home_button": "Go to Home",
         "cctv_button": "Go to CCTV",
@@ -84,10 +92,14 @@ if st.session_state["selected_hint"] is None:
     st.write(current_text["description"])
 
     # 힌트 버튼 표시
+    st.markdown('<div class="center">', unsafe_allow_html=True)  # 버튼 중앙 정렬
     for i, (hint, data) in enumerate(passwords.items()):
-        # 버튼 클릭 시 상태 변경 (고유 키 추가)
-        if st.button(current_text["hints"][i], key=f"hint_button_{i}"):
-            st.session_state["selected_hint"] = hint  # 선택된 힌트 상태 변경
+        button_html = f"""
+        <a href="#" onclick="document.getElementById('hint{i}').click();" class="button-3d">{current_text["hints"][i]}</a>
+        """
+        st.markdown(button_html, unsafe_allow_html=True)
+        st.button(current_text["hints"][i], key=f"hint_button_{i}", on_click=lambda h=hint: st.session_state.update({"selected_hint": h}))
+    st.markdown('</div>', unsafe_allow_html=True)
 
     # CCTV로 연결하기 버튼 추가
     if st.button(current_text["cctv_button"], key="cctv_button"):
@@ -113,12 +125,6 @@ else:
     if password_input == data["password"]:
         st.success(current_text["success"].format(selected_hint))
         st.image(data["image"], caption=f"{selected_hint} 이미지", use_container_width=True)
-        
-        # 3D 버튼 HTML 삽입
-        button_html = """
-        <a href="#" onclick="alert('Button clicked!')" class="button-3d">3D Button</a>
-        """
-        st.markdown(button_html, unsafe_allow_html=True)
 
     elif password_input != 0:  # 숫자가 입력되었으나 틀렸을 경우
         st.error(current_text["error"])
