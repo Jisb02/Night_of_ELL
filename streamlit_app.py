@@ -1,4 +1,5 @@
 import streamlit as st
+import plotly.graph_objects as go
 
 # 비밀번호와 연결된 힌트별 이미지 경로 설정
 passwords = {
@@ -32,7 +33,7 @@ text = {
         "title": "힌트 사이트",
         "description": "힌트 버튼을 더블 클릭하여 비밀번호를 입력 후 엔터. 힌트 이미지를 확인하세요.",
         "password_prompt": "{}의 비밀번호를 입력하세요:",
-        "success": "{}의 비밀번호가 맞았습니다!",
+        "success": "{}의 비밀번호가 맞았습니다! 3D 그래프를 확인하세요.",
         "error": "비밀번호가 틀렸습니다.",
         "home_button": "홈으로 가기",
         "cctv_button": "CCTV로 연결하기",
@@ -42,7 +43,7 @@ text = {
         "title": "Hints",
         "description": "Double-Click the hint button to enter the password and view the image.",
         "password_prompt": "Enter the password for {}:",
-        "success": "The password for {} is correct!",
+        "success": "The password for {} is correct! Check out the 3D graph.",
         "error": "The password is incorrect.",
         "home_button": "Go to Home",
         "cctv_button": "Go to CCTV",
@@ -93,6 +94,36 @@ else:
     if password_input == data["password"]:
         st.success(current_text["success"].format(selected_hint))
         st.image(data["image"], caption=f"{selected_hint} 이미지", use_container_width=True)
+        
+        # 3D 인터랙션 그래프 추가
+        x = [1, 2, 3, 4, 5]
+        y = [10, 11, 12, 13, 14]
+        z = [5, 6, 7, 8, 9]
+
+        fig = go.Figure(data=[go.Scatter3d(
+            x=x,
+            y=y,
+            z=z,
+            mode='markers',
+            marker=dict(
+                size=10,
+                color=z,  # Z 값에 따라 색상 변경
+                colorscale='Viridis',  # 색상 팔레트
+                opacity=0.8
+            )
+        )])
+
+        fig.update_layout(
+            scene=dict(
+                xaxis_title='X Axis',
+                yaxis_title='Y Axis',
+                zaxis_title='Z Axis'
+            ),
+            margin=dict(l=0, r=0, b=0, t=0)
+        )
+
+        st.plotly_chart(fig)
+
     elif password_input != 0:  # 숫자가 입력되었으나 틀렸을 경우
         st.error(current_text["error"])
 
