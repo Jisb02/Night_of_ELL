@@ -19,8 +19,8 @@ st.markdown("""
     <style>
     .button-3d {
         background-color: #ffffff; /* 버튼 배경색: 흰색 */
-        border: 2px solid #4CAF50; /* 테두리 초록색 */
-        color: #4CAF50; /* 텍스트 초록색 */
+        border: 2px solid #000000; /* 테두리 검정색 */
+        color: #000000; /* 글씨 검정색 */
         padding: 15px 32px;
         text-align: center;
         text-decoration: none;
@@ -34,13 +34,12 @@ st.markdown("""
     }
 
     .button-3d:hover {
-        background-color: #4CAF50; /* 호버 시 배경 초록색 */
-        color: #ffffff; /* 호버 시 텍스트 흰색 */
+        background-color: #f0f0f0; /* 호버 시 배경색 약간 회색 */
         box-shadow: 0 12px #666;
     }
 
     .button-3d:active {
-        background-color: #45a049;
+        background-color: #e0e0e0; /* 클릭 시 배경 더 진한 회색 */
         box-shadow: 0 4px #666;
         transform: translateY(4px);
     }
@@ -95,18 +94,19 @@ if st.session_state["selected_hint"] is None:
     st.markdown('<div class="center">', unsafe_allow_html=True)  # 버튼 중앙 정렬
     for i, (hint, data) in enumerate(passwords.items()):
         button_html = f"""
-        <a href="#" onclick="document.getElementById('hint{i}').click();" class="button-3d">{current_text["hints"][i]}</a>
+        <a href="#" onclick="document.getElementById('{hint}').click();" class="button-3d">{current_text["hints"][i]}</a>
         """
         st.markdown(button_html, unsafe_allow_html=True)
-        st.button(current_text["hints"][i], key=f"hint_button_{i}", on_click=lambda h=hint: st.session_state.update({"selected_hint": h}))
+        st.button(current_text["hints"][i], key=hint, on_click=lambda h=hint: st.session_state.update({"selected_hint": h}))
     st.markdown('</div>', unsafe_allow_html=True)
 
     # CCTV로 연결하기 버튼 추가
-    if st.button(current_text["cctv_button"], key="cctv_button"):
-        st.markdown(
-            '<a href="https://24ellcctv.streamlit.app/" target="_blank" style="text-decoration:none;"><button style="background-color:#007BFF; color:white; border:none; padding:10px 15px; font-size:16px; cursor:pointer;">🔗 CCTV로 연결하기</button></a>',
-            unsafe_allow_html=True,
-        )
+    cctv_html = """
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="https://24ellcctv.streamlit.app/" target="_blank" class="button-3d">CCTV로 연결하기</a>
+    </div>
+    """
+    st.markdown(cctv_html, unsafe_allow_html=True)
 else:
     # 선택된 힌트 화면
     selected_hint = st.session_state["selected_hint"]
@@ -130,5 +130,10 @@ else:
         st.error(current_text["error"])
 
     # 홈으로 가기 버튼
-    if st.button(current_text["home_button"], key="home_button"):
-        reset_to_home()
+    home_html = """
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="#" onclick="document.getElementById('home_button').click();" class="button-3d">홈으로 가기</a>
+    </div>
+    """
+    st.markdown(home_html, unsafe_allow_html=True)
+    st.button(current_text["home_button"], key="home_button", on_click=reset_to_home)
