@@ -1,5 +1,4 @@
 import streamlit as st
-import plotly.graph_objects as go
 
 # 비밀번호와 연결된 힌트별 이미지 경로 설정
 passwords = {
@@ -15,17 +14,37 @@ if "language" not in st.session_state:
 if "selected_hint" not in st.session_state:
     st.session_state["selected_hint"] = None  # 초기값은 None
 
-# 언어 전환 버튼
-col1, col2 = st.columns([8, 1])  # 오른쪽 상단에 배치
-with col2:
-    if st.session_state["language"] == "KOR":
-        if st.button("ENG", key="lang_eng"):
-            st.session_state["language"] = "ENG"
-            st.session_state["selected_hint"] = None  # 언어 전환 시 홈 화면으로 리셋
-    elif st.session_state["language"] == "ENG":
-        if st.button("KOR", key="lang_kor"):
-            st.session_state["language"] = "KOR"
-            st.session_state["selected_hint"] = None  # 언어 전환 시 홈 화면으로 리셋
+# CSS 스타일 정의
+st.markdown("""
+    <style>
+    .button-3d {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        box-shadow: 0 9px #999;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .button-3d:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+
+    .button-3d:hover {
+        background-color: #45a049;
+        box-shadow: 0 12px #666;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # 텍스트 번역 (언어에 따라 다르게 설정)
 text = {
@@ -33,7 +52,7 @@ text = {
         "title": "힌트 사이트",
         "description": "힌트 버튼을 더블 클릭하여 비밀번호를 입력 후 엔터. 힌트 이미지를 확인하세요.",
         "password_prompt": "{}의 비밀번호를 입력하세요:",
-        "success": "{}의 비밀번호가 맞았습니다! 3D 그래프를 확인하세요.",
+        "success": "{}의 비밀번호가 맞았습니다! 3D 버튼을 확인하세요.",
         "error": "비밀번호가 틀렸습니다.",
         "home_button": "홈으로 가기",
         "cctv_button": "CCTV로 연결하기",
@@ -43,7 +62,7 @@ text = {
         "title": "Hints",
         "description": "Double-Click the hint button to enter the password and view the image.",
         "password_prompt": "Enter the password for {}:",
-        "success": "The password for {} is correct! Check out the 3D graph.",
+        "success": "The password for {} is correct! Check out the 3D button.",
         "error": "The password is incorrect.",
         "home_button": "Go to Home",
         "cctv_button": "Go to CCTV",
@@ -95,34 +114,11 @@ else:
         st.success(current_text["success"].format(selected_hint))
         st.image(data["image"], caption=f"{selected_hint} 이미지", use_container_width=True)
         
-        # 3D 인터랙션 그래프 추가
-        x = [1, 2, 3, 4, 5]
-        y = [10, 11, 12, 13, 14]
-        z = [5, 6, 7, 8, 9]
-
-        fig = go.Figure(data=[go.Scatter3d(
-            x=x,
-            y=y,
-            z=z,
-            mode='markers',
-            marker=dict(
-                size=10,
-                color=z,  # Z 값에 따라 색상 변경
-                colorscale='Viridis',  # 색상 팔레트
-                opacity=0.8
-            )
-        )])
-
-        fig.update_layout(
-            scene=dict(
-                xaxis_title='X Axis',
-                yaxis_title='Y Axis',
-                zaxis_title='Z Axis'
-            ),
-            margin=dict(l=0, r=0, b=0, t=0)
-        )
-
-        st.plotly_chart(fig)
+        # 3D 버튼 HTML 삽입
+        button_html = """
+        <a href="#" onclick="alert('Button clicked!')" class="button-3d">3D Button</a>
+        """
+        st.markdown(button_html, unsafe_allow_html=True)
 
     elif password_input != 0:  # 숫자가 입력되었으나 틀렸을 경우
         st.error(current_text["error"])
