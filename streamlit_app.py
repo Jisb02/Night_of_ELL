@@ -84,9 +84,6 @@ current_text = text[lang]
 def reset_to_home():
     st.session_state["selected_hint"] = None
 
-def change_hint(hint):
-    st.session_state["selected_hint"] = hint
-
 # 홈 화면 처리
 if st.session_state["selected_hint"] is None:
     # 홈 화면
@@ -97,20 +94,21 @@ if st.session_state["selected_hint"] is None:
     st.markdown('<div class="center">', unsafe_allow_html=True)  # 버튼 중앙 정렬
     for i, (hint, data) in enumerate(passwords.items()):
         button_html = f"""
-        <a href="#" onclick="window.location.hash='{hint}'; document.getElementById('{hint}').click();" class="button-3d">{current_text["hints"][i]}</a>
+        <form action="" method="get">
+            <button type="submit" name="hint" value="{hint}" class="button-3d">
+                {current_text["hints"][i]}
+            </button>
+        </form>
         """
         st.markdown(button_html, unsafe_allow_html=True)
-        # 숨겨진 Streamlit 버튼 (3D 버튼 동작 연결용, 화면에 표시되지 않음)
-        st.button("", key=hint, on_click=lambda h=hint: change_hint(h), disabled=True)
+    
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # CCTV로 연결하기 버튼 추가
-    cctv_html = """
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="https://24ellcctv.streamlit.app/" target="_blank" class="button-3d">CCTV로 연결하기</a>
-    </div>
-    """
-    st.markdown(cctv_html, unsafe_allow_html=True)
+    # 버튼 동작
+    selected_hint = st.experimental_get_query_params().get("hint", [None])[0]
+    if selected_hint and selected_hint in passwords:
+        st.session_state["selected_hint"] = selected_hint
+
 else:
     # 선택된 힌트 화면
     selected_hint = st.session_state["selected_hint"]
@@ -135,9 +133,10 @@ else:
 
     # 홈으로 가기 버튼
     home_html = """
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="#" onclick="window.location.hash='home'; document.getElementById('home_button').click();" class="button-3d">홈으로 가기</a>
-    </div>
+    <form action="" method="get">
+        <button type="submit" name="home" class="button-3d">홈으로 가기</button>
+    </form>
     """
     st.markdown(home_html, unsafe_allow_html=True)
-    st.button("", key="home_button", on_click=reset_to_home, disabled=True)
+    if st.experimental_get_query_params().get("home"):
+        reset_to_home()
